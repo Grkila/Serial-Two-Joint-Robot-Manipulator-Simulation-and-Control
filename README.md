@@ -61,6 +61,18 @@ Potential improvements include:
 - **Model Predictive Control (MPC)**: For more adaptive and optimized control.
 - **Advanced Fuzzy Control**: Considering all state variables to refine precision.
 
+## Credits
+
+This project was completed in collaboration with the following team members:
+
+- **Šećerov Nemanja**
+- **Demirović Emina**
+- **Tokić Ilija**
+- **Grković Dušan**
+
+
+Special thanks to **Professor Dr. Željko Kanović** and **Assistants Gluhović Mihailo and Golić Anastasija** from the *University of Novi Sad*, who provided valuable guidance throughout the project.
+
 ---
 
 This project provides a comprehensive exploration of control strategies for robotic manipulators, with practical applications for complex, real-time automation systems.
