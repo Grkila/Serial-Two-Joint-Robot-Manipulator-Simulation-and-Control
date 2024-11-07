@@ -59,7 +59,7 @@ The system was tested in various scenarios to assess control accuracy and reliab
 - Python 3.8
 - LabVIEW 2014+
 - LabVIEW Robotics module
-- Biblioteke za python:
+- Libraries for python:
 - OpenCV
 - mediapipe
 - numpy
