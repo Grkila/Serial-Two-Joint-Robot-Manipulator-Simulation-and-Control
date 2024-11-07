@@ -14,6 +14,7 @@ This project focuses on real-time control algorithms for a serial two-joint robo
 - [Hardware Implementation](#hardware-implementation)
 - [Evaluation and Results](#evaluation-and-results)
 - [Future Improvements](#future-improvements)
+- [Credits](#credits)
 
 ## Motivation
 Robotic manipulators play a vital role in automated systems across industrial, medical, and research sectors. This project addresses the challenges in precise motion control for robotic arms, focusing on managing system nonlinearity and real-time response requirements.
