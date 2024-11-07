@@ -1,0 +1,8 @@
+Potrebne stvari za potpun rad ovog projekta
+Python 3.8
+LabVIEW 2014+
+LabVIEW Robotics module
+Biblioteke za python:
+OpenCV
+mediapipe
+numpy
