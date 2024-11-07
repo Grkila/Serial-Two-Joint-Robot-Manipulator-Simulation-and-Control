@@ -13,6 +13,7 @@ This project focuses on real-time control algorithms for a serial two-joint robo
 - [User Interface](#user-interface)
 - [Hardware Implementation](#hardware-implementation)
 - [Evaluation and Results](#evaluation-and-results)
+- [Requirements](#requirements)
 - [Future Improvements](#future-improvements)
 - [Credits](#credits)
 
@@ -54,7 +55,15 @@ The control algorithms were deployed on sbRIO and cRIO platforms, chosen for the
 
 ## Evaluation and Results
 The system was tested in various scenarios to assess control accuracy and reliability. While hardware tests showed limitations in accuracy, simulations confirmed the system's robustness and stability, validating the project's goals.
-
+## Requirements
+- Python 3.8
+- LabVIEW 2014+
+- LabVIEW Robotics module
+- Biblioteke za python:
+- OpenCV
+- mediapipe
+- numpy
+  
 ## Future Improvements
 Potential improvements include:
 - **Enhanced Discretization**: Using Runge-Kutta methods.
