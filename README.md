@@ -1,4 +1,4 @@
-# Serial Two-Joint Robot Manipulator Simulatuion and Control
+# Serial Two-Joint Robot Manipulator Simulation and Control
 
 This project focuses on real-time control algorithms for a serial two-joint robotic manipulator, incorporating precise control strategies and simulations. Developed as a part of the *University of Novi Sad* program, this project leverages advanced mathematical modeling, control theory, and hardware implementation to explore the challenges of robot arm manipulation.
 
