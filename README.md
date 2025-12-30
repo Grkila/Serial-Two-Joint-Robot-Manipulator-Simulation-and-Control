@@ -1,6 +1,6 @@
 # Serial Two-Joint Robot Manipulator Simulation and Control
 
-This project focuses on real-time control algorithms for a serial two-joint robotic manipulator. It was developed at the University of Novi Sad. The goal was to model, simulate and control a robot arm using standard and advanced control strategies.
+This project focuses on real-time control algorithms for a serial two-joint robotic manipulator using a Software in the Loop (SIL) approach. It was developed at the University of Novi Sad. The goal was to model, simulate and control a robot arm using standard and advanced control strategies.
 
 ![Robot Arm Diagram](docs/images/robot_arm_diagram.jpeg)
 
@@ -74,9 +74,15 @@ We moved the simulation to real hardware using NI sbRIO and cRIO platforms. Thes
 
 ![Hardware Filtering](docs/images/hardware_filtering_code.jpeg)
 
-## Results
+## Results and Comparison
 
-We tested the system in many scenarios. The simulation proved the control logic was stable. The hardware tests were less precise than the simulation but demonstrated the concepts effectively. The system successfully followed paths and responded to manual inputs.
+We used the Software in the Loop (SIL) simulation to compare the three control strategies.
+
+*   **PID Control:** This served as our baseline. It was stable but struggled with precision because of the system's nonlinear nature.
+*   **Sliding Mode Control (SMC):** This method was the best performer in the simulation. It was highly accurate. However, it is sensitive to delays, which makes it challenging for real hardware implementation.
+*   **Fuzzy PID:** This proved to be the best practical choice for this nonlinear system. It handled the dynamics well and improved significantly upon the standard PID.
+
+The simulation confirmed the control logic was sound. Hardware tests demonstrated the concepts effectively, though real-world factors like noise and delays made them less precise than the SIL simulation.
 
 ## Requirements
 
