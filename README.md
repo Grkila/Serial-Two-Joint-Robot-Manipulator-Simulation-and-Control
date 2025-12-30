@@ -1,88 +1,99 @@
 # Serial Two-Joint Robot Manipulator Simulation and Control
 
-This project focuses on real-time control algorithms for a serial two-joint robotic manipulator, incorporating precise control strategies and simulations. Developed as a part of the *University of Novi Sad* program, this project leverages advanced mathematical modeling, control theory, and hardware implementation to explore the challenges of robot arm manipulation.
+This project focuses on real-time control algorithms for a serial two-joint robotic manipulator. It was developed at the University of Novi Sad. The goal was to model, simulate and control a robot arm using standard and advanced control strategies.
 
-## Table of Contents
-- [Motivation](#motivation)
-- [Project Goals](#project-goals)
-- [System Architecture](#system-architecture)
-- [Control Strategies](#control-strategies)
-  - [PID Control](#pid-control)
-  - [PID with Fuzzy Parameter Tuning](#pid-with-fuzzy-parameter-tuning)
-  - [Sliding Mode Control (SMC)](#sliding-mode-control-smc)
-- [User Interface](#user-interface)
-- [Hardware Implementation](#hardware-implementation)
-- [Evaluation and Results](#evaluation-and-results)
-- [Requirements](#requirements)
-- [Future Improvements](#future-improvements)
-- [Credits](#credits)
+![Robot Arm Diagram](docs/images/robot_arm_diagram.jpeg)
 
 ## Motivation
-Robotic manipulators play a vital role in automated systems across industrial, medical, and research sectors. This project addresses the challenges in precise motion control for robotic arms, focusing on managing system nonlinearity and real-time response requirements.
+
+Robotic arms are essential in many industries. They perform complex tasks with high precision. However, controlling them is difficult. They are nonlinear systems that need fast reactions. This project tackles those challenges by building reliable control algorithms.
 
 ## Project Goals
-1. Develop an accurate mathematical model for the robot arm’s kinematics and dynamics.
-2. Implement and optimize control strategies to ensure stable and efficient movement.
-3. Simulate the system to test control algorithms before hardware deployment.
-4. Evaluate different control strategies’ performance to determine optimal configurations.
-5. Test real-time implementations on sbRIO/cRIO hardware platforms.
 
-## System Architecture
-The robotic manipulator consists of two joints with movable segments. The system is modeled mathematically to describe the kinematics, dynamics, and energy characteristics. Key stages include:
-- **Mathematical Model Creation**: Formulating equations for robot arm dynamics.
-- **Linearization and Discretization**: Converting the model to a manageable form for digital control.
+We had several specific objectives.
+
+*   Create a mathematical model of the robot arm.
+*   Design and test PID and fuzzy controllers.
+*   Simulate the system in LabVIEW.
+*   Test the control on National Instruments hardware.
+*   Build a user interface for easy control.
+
+## Mathematical Model
+
+The model consists of a base and two joints. We analyzed the kinematics and dynamics. Kinematics describes the motion in space. Dynamics looks at the forces and torques needed to move the arm.
+
+![Dynamics Equation](docs/images/dynamics_eq_1.png)
 
 ## Control Strategies
-This project explores various control techniques to enhance the arm’s movement accuracy and stability.
+
+We tested different ways to control the arm.
 
 ### PID Control
-The conventional PID control was implemented to provide baseline control, with parameters tuned iteratively to achieve stability. However, due to system nonlinearities, PID control faced limitations in maintaining steady-state accuracy.
 
-### PID with Fuzzy Parameter Tuning
-To overcome PID limitations, a fuzzy controller dynamically adjusts PID parameters based on error and change in error, resulting in improved steady-state performance and robustness.
+We started with conventional PID control. We tuned the parameters to get stable movement. It worked but had some issues with steady-state accuracy due to the system's nonlinearity.
+
+![PID Block Diagram](docs/images/pid_block_diagram.jpeg)
+
+### PID with Fuzzy Tuning
+
+To improve the standard PID, we added a fuzzy logic controller. It adjusts the PID parameters automatically based on errors. This improved the performance and made the system more robust.
+
+![Fuzzy PID Integration](docs/images/fuzzy_pid_integration_1.jpeg)
 
 ### Sliding Mode Control (SMC)
-For enhanced robustness and adaptability to system uncertainties, Sliding Mode Control was introduced. SMC maintains the system’s state along a predefined “sliding surface,” making it suitable for nonlinear behavior in the manipulator.
 
-## User Interface
-A LabVIEW-based GUI was developed, featuring:
-- **Manual Control**: Via front panel sliders or HID devices like joysticks.
-- **Automated Path Tracking**: Predefined circular, square, and triangular paths with state machine logic and a Producer-Consumer architecture.
-- **Computer Vision Mode**: A hand-tracking mode using Python’s OpenCV and MediaPipe libraries enables intuitive robot control by following the user’s hand movements.
+We also implemented Sliding Mode Control. This method is good for nonlinear systems. It forces the system state to slide along a defined surface. This handles uncertainty better than standard PID.
+
+![SMC Implementation](docs/images/smc_implementation.jpeg)
+
+## User Interface and Simulation
+
+We built the simulation and interface in LabVIEW.
+
+### 3D Visualization
+
+The interface shows a 3D view of the robot arm moving in real time. It uses LabVIEW's graphics libraries to render the joints and segments.
+
+![3D Visualization](docs/images/3d_visualization_block.jpeg)
+
+### Control Panel
+
+The front panel lets you control the robot manually. You can use sliders or a joystick. There are also automatic modes to make the arm follow shapes like circles or triangles.
+
+![Front Panel Overview](docs/images/front_panel_overview.jpeg)
+
+### Computer Vision Control
+
+We added a feature to control the robot with hand gestures. It uses Python with OpenCV and MediaPipe. The system tracks your hand position and moves the robot to match.
+
+![Hand Gesture Recognition](docs/images/hand_gesture_recognition.jpeg)
 
 ## Hardware Implementation
-The control algorithms were deployed on sbRIO and cRIO platforms, chosen for their high performance in real-time applications. First-order filters were used to reduce noise and improve signal stability.
 
-## Evaluation and Results
-The system was tested in various scenarios to assess control accuracy and reliability. While hardware tests showed limitations in accuracy, simulations confirmed the system's robustness and stability, validating the project's goals.
+We moved the simulation to real hardware using NI sbRIO and cRIO platforms. These allow for real-time processing. Real signals have noise, so we implemented first-order filters to clean up the inputs and outputs.
+
+![Hardware Filtering](docs/images/hardware_filtering_code.jpeg)
+
+## Results
+
+We tested the system in many scenarios. The simulation proved the control logic was stable. The hardware tests were less precise than the simulation but demonstrated the concepts effectively. The system successfully followed paths and responded to manual inputs.
+
 ## Requirements
-- Python 3.8
-- LabVIEW 2014+
-- LabVIEW Robotics module
-- Libraries for python:
-- OpenCV
-- mediapipe
-- numpy
-  
-## Future Improvements
-Potential improvements include:
-- **Enhanced Discretization**: Using Runge-Kutta methods.
-- **Extended Functionalities**: Adding grippers or other manipulative features.
-- **Model Predictive Control (MPC)**: For more adaptive and optimized control.
-- **Advanced Fuzzy Control**: Considering all state variables to refine precision.
+
+*   Python 3.8
+*   LabVIEW 2014 or newer
+*   LabVIEW Robotics module
+*   Python libraries (OpenCV, mediapipe, numpy)
 
 ## Credits
 
-This project was completed in collaboration with the following team members:
+**Authors**
+*   Šećerov Nemanja
+*   Demirović Emina
+*   Grković Dušan
+*   Tokić Ilija
 
-- **Šećerov Nemanja**
-- **Demirović Emina**
-- **Tokić Ilija**
-- **Grković Dušan**
-
-
-Special thanks to **Professor Dr. Željko Kanović** and **Assistants Gluhović Mihailo and Golić Anastasija** from the *University of Novi Sad*, who provided valuable guidance throughout the project.
-
----
-
-This project provides a comprehensive exploration of control strategies for robotic manipulators, with practical applications for complex, real-time automation systems.
+**Mentors**
+*   Prof. dr Željko Kanović
+*   Gluhović Mihailo
+*   Golić Anastasija
