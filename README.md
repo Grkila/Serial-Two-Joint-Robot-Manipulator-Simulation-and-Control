@@ -20,7 +20,7 @@ We had several specific objectives.
 
 ## Mathematical Model
 
-The model consists of a base and two joints. We analyzed the kinematics and dynamics. Kinematics describes the motion in space. Dynamics looks at the forces and torques needed to move the arm.
+The model consists of a base and two joints. We analyzed the kinematics and dynamics. Kinematics describes the motion in space. Dynamics looks at the forces and torques needed to move the arm. To implement these equations in the digital simulation, we used the Forward Euler method for discretization.
 
 ![Dynamics Equation](docs/images/dynamics_eq_1.png)
 
