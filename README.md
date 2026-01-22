@@ -1,105 +1,109 @@
 # Serial Two-Joint Robot Manipulator Simulation and Control
 
-This project focuses on real-time control algorithms for a serial two-joint robotic manipulator using a Software in the Loop (SIL) approach. It was developed at the University of Novi Sad. The goal was to model, simulate and control a robot arm using standard and advanced control strategies.
+This project implements real-time control algorithms for a serial two-joint robotic manipulator using a **Software-in-the-Loop (SIL)** approach. It features a complete simulation environment in LabVIEW with 3D visualization, coupled with a Python-based computer vision interface for hand gesture control.
 
-![Robot Arm Diagram](docs/images/robot_arm_diagram.jpeg)
+![Robot Arm Diagram](docs/images/3d_arm_representation.jpeg)
 
-## Motivation
+---
 
-Robotic arms are essential in many industries. They perform complex tasks with high precision. However, controlling them is difficult. They are nonlinear systems that need fast reactions. This project tackles those challenges by building reliable control algorithms.
+## Quick Start
 
-## Project Goals
+### Prerequisites
+*   **LabVIEW 2014** (or newer) with **Robotics Module**
+*   **Python 3.8+**
+*   **Webcam** (for computer vision modes)
 
-We had several specific objectives.
+### Installation
+1.  Clone the repository.
+2.  Install the required Python dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Ensure `python` is in your system PATH so LabVIEW can execute the script.
 
-*   Create a mathematical model of the robot arm.
-*   Design and test PID and fuzzy controllers.
-*   Simulate the system in LabVIEW.
-*   Test the control on National Instruments hardware.
-*   Build a user interface for easy control.
+### Running the Project
+1.  Open **`src/PROJEKAT RUKE-final.vi`** in LabVIEW.
+2.  **Run the VI**.
+    *   The system will automatically launch the Python computer vision interface (`CV_and_PointPicker.py`) when needed.
+    *   No manual script execution is required.
 
-## Mathematical Model
+---
 
-The model consists of a base and two joints. We analyzed the kinematics and dynamics. Kinematics describes the motion in space. Dynamics looks at the forces and torques needed to move the arm. To implement these equations in the digital simulation, we used the Forward Euler method for discretization.
+## Features
 
-![Dynamics Equation](docs/images/dynamics_eq_1.png)
+*   **Multi-Mode Control**:
+    *   **Manual (Sliders)**: Direct control of X/Y coordinates via Front Panel.
+    *   **Joystick (HID)**: Intuitive control using a connected game controller.
+    *   **Path Following**: Automated execution of predefined paths (Circle, Square, Triangle).
+    *   **Computer Vision**: Control the robot arm using hand gestures (Index Finger tracking).
+    *   **Drawing Mode**: Draw a path on screen for the robot to replicate.
+*   **Advanced Control Algorithms**:
+    *   **PID Controller**: Baseline control with tunable P, I, D parameters.
+    *   **Fuzzy-PID**: Adaptive controller that tunes PID parameters in real-time based on error dynamics.
+    *   **Sliding Mode Control (SMC)**: Robust nonlinear control for high precision.
+*   **Visualization**:
+    *   Real-time **3D simulation** of the robot arm.
+    *   Live plotting of position, velocity, and error.
 
-## Control Strategies
+---
 
-We tested different ways to control the arm.
+## System Architecture
 
-### PID Control
+The software is built on the **Producer-Consumer** design pattern to ensure deterministic control loop execution separate from UI handling.
 
-We started with conventional PID control. We tuned the parameters to get stable movement. It worked but had some issues with steady-state accuracy due to the system's nonlinearity.
+*   **LabVIEW (Consumer)**: Handles the physics engine, kinematics/dynamics calculations, and control loop execution (PID/SMC/Fuzzy).
+*   **Python (Producer/External)**: Processes camera input using **OpenCV** and **MediaPipe**, sending normalized coordinates to LabVIEW via **UDP (Port 1122)**.
 
-![PID Block Diagram](docs/images/pid_block_diagram.jpeg)
+### Communication
+The Python script sends coordinates as a 1D array of ordered pairs:
+`[normalized_x, normalized_y]` $\rightarrow$ **UDP** $\rightarrow$ **LabVIEW**
 
-### PID with Fuzzy Tuning
+---
 
-To improve the standard PID, we added a fuzzy logic controller. It adjusts the PID parameters automatically based on errors. This improved the performance and made the system more robust.
+## Theoretical Background
 
-![Fuzzy PID Integration](docs/images/fuzzy_pid_integration_1.jpeg)
+### Mathematical Model
+The system simulates a 2-DOF planar robot arm.
+*   **Kinematics**: Forward and Inverse kinematics calculate joint angles ($q_1, q_2$) from Cartesian coordinates $(x, y)$.
+*   **Dynamics**: Modeled using the Lagrangian formulation ($L = T - V$) to derive torque equations.
 
-### Sliding Mode Control (SMC)
+### Control Strategies
+| Controller | Description | Pros | Cons |
+| :--- | :--- | :--- | :--- |
+| **PID** | Classical Proportional-Integral-Derivative | Simple, widely used | Struggles with system nonlinearity |
+| **Fuzzy PID** | Fuzzy logic adjusts $K_p$ based on error | Better handling of nonlinearity | Complex tuning of membership functions |
+| **SMC** | Sliding Mode Control | High robustness & precision | Sensitive to loop delays (chattering) |
 
-We also implemented Sliding Mode Control. This method is good for nonlinear systems. It forces the system state to slide along a defined surface. This handles uncertainty better than standard PID.
+For a deep dive into the mathematical derivations and control theory, please refer to the full **[Project Documentation (PDF)](docs/UARV%20projekat%20-%20dokumentacija.pdf)**.
 
-![SMC Implementation](docs/images/smc_implementation.jpeg)
+---
 
-## User Interface and Simulation
+## Project Structure
 
-We built the simulation and interface in LabVIEW.
-
-### 3D Visualization
-
-The interface shows a 3D view of the robot arm moving in real time. It uses LabVIEW's graphics libraries to render the joints and segments.
-
-![3D Visualization](docs/images/3d_visualization_block.jpeg)
-
-### Control Panel
-
-The front panel lets you control the robot manually. You can use sliders or a joystick. There are also automatic modes to make the arm follow shapes like circles or triangles.
-
-![Front Panel Overview](docs/images/front_panel_overview.jpeg)
-
-### Computer Vision Control
-
-We added a feature to control the robot with hand gestures. It uses Python with OpenCV and MediaPipe. The system tracks your hand position and moves the robot to match.
-
-![Hand Gesture Recognition](docs/images/hand_gesture_recognition.jpeg)
-
-## Hardware Implementation
-
-We moved the simulation to real hardware using NI sbRIO and cRIO platforms. These allow for real-time processing. Real signals have noise, so we implemented first-order filters to clean up the inputs and outputs.
-
-![Hardware Filtering](docs/images/hardware_filtering_code.jpeg)
-
-## Results and Comparison
-
-We used the Software in the Loop (SIL) simulation to compare the three control strategies.
-
-*   **PID Control:** This served as our baseline. It was stable but struggled with precision because of the system's nonlinear nature.
-*   **Sliding Mode Control (SMC):** This method was the best performer in the simulation. It was highly accurate. However, it is sensitive to delays, which makes it challenging for real hardware implementation.
-*   **Fuzzy PID:** This proved to be the best practical choice for this nonlinear system. It handled the dynamics well and improved significantly upon the standard PID.
-
-The simulation confirmed the control logic was sound. Hardware tests demonstrated the concepts effectively, though real-world factors like noise and delays made them less precise than the SIL simulation.
-
-## Requirements
-
-*   Python 3.8
-*   LabVIEW 2014 or newer
-*   LabVIEW Robotics module
-*   Python libraries (OpenCV, mediapipe, numpy)
+```text
+├── docs/                   # Documentation and diagrams
+├── src/
+│   ├── PROJEKAT RUKE-final.vi      # MAIN ENTRY POINT
+│   ├── CV_and_PointPicker.py       # Python Vision Script
+│   ├── PID final controller.vi     # PID Logic
+│   ├── SMC.vi                      # Sliding Mode Logic
+│   ├── fuzzyT1.fs                  # Fuzzy Logic System definition
+│   └── ...                         # Helper VIs (Kinematics, Math)
+├── requirements.txt        # Python dependencies
+└── README.md
+```
 
 ## Credits
 
-**Authors**
+Developed at the **University of Novi Sad, Faculty of Technical Sciences**, Department of Computing and Control.
+
+**Authors:**
 *   Šećerov Nemanja
 *   Demirović Emina
 *   Grković Dušan
 *   Tokić Ilija
 
-**Mentors**
+**Mentors:**
 *   Prof. dr Željko Kanović
 *   Gluhović Mihailo
 *   Golić Anastasija
